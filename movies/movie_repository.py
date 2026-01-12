@@ -17,10 +17,17 @@ class MovieRepository:
         with open(self.filepath, "r") as file:
             data = json.load(file)
             return data["movies"]
-
     
+    def create_movie(self, title):
+        data = {"movies": self.read_movies()}
+        data["movies"].append(title)
+
+        with open(self.filepath, "w") as file:
+            json.dump(data, file, indent=4)
+
 
 if __name__ == "__main__":
     repo = MovieRepository()
-    movies = repo.read_movies()
-    print("Movies:", movies)
+    repo.create_movie("The Dark Knight")
+    print(repo.read_movies())
+
