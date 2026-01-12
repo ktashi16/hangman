@@ -19,15 +19,25 @@ class MovieRepository:
             return data["movies"]
     
     def create_movie(self, title):
-        data = {"movies": self.read_movies()}
-        data["movies"].append(title)
+        title = title.strip()
+        if not title:
+            raise ValueError("Movie title cannot be empty")
+
+        movies = self.read_movies()
+
+        if title in movies:
+            raise ValueError("Movie already exists")
+
+        movies.append(title)
 
         with open(self.filepath, "w") as file:
-            json.dump(data, file, indent=4)
+            json.dump({"movies": movies}, file, indent=4)
+
 
 
 if __name__ == "__main__":
     repo = MovieRepository()
-    repo.create_movie("The Dark Knight")
+    repo.create_movie("") #testing
+    repo.create_movie("Inception")
     print(repo.read_movies())
 
