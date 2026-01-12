@@ -23,13 +23,34 @@ class HangmanGame:
     def guess_letter(self, letter):
         if len(letter) != 1 or not letter.isalpha():
             raise ValueError("Guess must be a single letter")
+        
+        if letter in self.guessed_letters:
+            raise ValueError("Letter already guessed")
 
         letter = letter.upper()
+        if letter in self.word:
+            self._reveal_letter(letter)
+        else:
+            self.incorrect_guesses += 1
+
+
+    def _reveal_letter(self, letter):
+        masked = list(self.masked_word)
+        for i, char in enumerate(self.word):
+            if char == letter:
+                masked[i] = letter
+        self.masked_word = "".join(masked)
+
 
 
 if __name__ == "__main__":
     movies = ["Inception", "Interstellar"]
     game = HangmanGame(movies)
-    game.guess_letter("AB")
+    game.guess_letter("A")
+    game.guess_letter("E")
+    game.guess_letter("T")
+    game.guess_letter("I")
+    print(game.masked_word)
+
 
 
