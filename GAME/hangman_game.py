@@ -32,6 +32,7 @@ class HangmanGame:
             raise ValueError("Letter already guessed")
 
         letter = letter.upper()
+
         if letter in self.word:
             self._reveal_letter(letter)
         else:
@@ -40,12 +41,16 @@ class HangmanGame:
         if self.incorrect_guesses >= MAX_GUESSES:
             self.lost = True
             self.masked_word = self.word
-            
+
         if self.masked_word == self.word:
             self.won = True
 
-
-
+    def guess_word(self, word):
+        if word.upper() == self.word:
+            self.masked_word = self.word
+            self.won = True
+        else:
+            self.incorrect_guesses += 1
 
     def _reveal_letter(self, letter):
         masked = list(self.masked_word)
@@ -55,15 +60,11 @@ class HangmanGame:
         self.masked_word = "".join(masked)
 
 
-
 if __name__ == "__main__":
     movies = ["Inception", "Interstellar"]
     game = HangmanGame(movies)
-    game.guess_letter("A")
-    game.guess_letter("E")
-    game.guess_letter("T")
-    game.guess_letter("I")
-    print(game.masked_word)
+    game.guess_word("Inception")
+
 
 
 
