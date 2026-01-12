@@ -43,12 +43,22 @@ class HangmanGame:
         if self.masked_word == self.word:
             self.won = True
 
-    def guess_word(self, word):
-        if word.upper() == self.word:
-            self.masked_word = self.word
+    def guess_word(self, guessed_word):
+        guessed_word = guessed_word.upper()
+        if self.is_over():  # game already ended
+            return
+        if guessed_word == self.word:
             self.won = True
+            self.reveal_word()  # show the full word to the player
         else:
             self.incorrect_guesses += 1
+            if self.incorrect_guesses >= self.max_incorrect_guesses:
+                self.lost = True
+                self.reveal_word()  # show the full word after losing
+
+    def reveal_word(self):
+        self.masked_word = self.word
+
 
     def _reveal_letter(self, letter):
         masked = list(self.masked_word)
