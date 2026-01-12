@@ -34,6 +34,15 @@ class MovieRepository:
             json.dump({"movies": movies}, file, indent=4)
 
 
+    def update_movie(self, old_title, new_title):
+        pass
+
+    def delete_movie(self, title):
+        pass
+
+
+
+
 
 if __name__ == "__main__":
     repo = MovieRepository()
