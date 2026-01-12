@@ -12,8 +12,15 @@ class MovieRepository:
         if not self.filepath.exists():
             with open(self.filepath, "w") as file:
                 json.dump({"movies": []}, file)
+            
+    def read_movies(self):
+        with open(self.filepath, "r") as file:
+            data = json.load(file)
+            return data["movies"]
+
     
 
 if __name__ == "__main__":
     repo = MovieRepository()
-    print("File path:", repo.filepath)
+    movies = repo.read_movies()
+    print("Movies:", movies)
