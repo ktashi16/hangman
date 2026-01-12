@@ -2,6 +2,8 @@ import random
 
 
 class HangmanGame:
+
+
     def __init__(self, movies):
         self.word = random.choice(movies).upper()  #selecting a random word from movies.json
         self.masked_word = self._mask_word()
@@ -9,6 +11,7 @@ class HangmanGame:
         self.incorrect_guesses = 0
         self.won = False
         self.lost = False
+        
 
      
     def _mask_word(self):
@@ -21,6 +24,7 @@ class HangmanGame:
         return masked
 
     def guess_letter(self, letter):
+        MAX_GUESSES = 7
         if len(letter) != 1 or not letter.isalpha():
             raise ValueError("Guess must be a single letter")
         
@@ -32,6 +36,15 @@ class HangmanGame:
             self._reveal_letter(letter)
         else:
             self.incorrect_guesses += 1
+
+        if self.incorrect_guesses >= MAX_GUESSES:
+            self.lost = True
+            self.masked_word = self.word
+            
+        if self.masked_word == self.word:
+            self.won = True
+
+
 
 
     def _reveal_letter(self, letter):
