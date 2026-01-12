@@ -14,9 +14,12 @@ class MovieRepository:
                 json.dump({"movies": []}, file)
             
     def read_movies(self):
-        with open(self.filepath, "r") as file:
-            data = json.load(file)
-            return data["movies"]
+        try:
+            with open(self.filepath, "r") as file:
+                return json.load(file)["movies"]
+        except json.JSONDecodeError:
+            raise ValueError("Movie file is corrupted")
+
     
     def create_movie(self, title):
         title = title.strip()
@@ -35,14 +38,29 @@ class MovieRepository:
 
 
     def update_movie(self, old_title, new_title):
-        pass
+            
+        movies = self.read_movies()
+
+        if old_title not in movies:
+            raise ValueError("Movie not found")
+
+        index = movies.index(old_title)
+        movies[index] = new_title.strip()
+
+        with open(self.filepath, "w") as file:
+            json.dump({"movies": movies}, file, indent=4)
+
 
     def delete_movie(self, title):
-        pass
+        movies = self.read_movies()
 
+        if title not in movies:
+            raise ValueError("Movie not found")
 
+        movies.remove(title)
 
-
+        with open(self.filepath, "w") as file:
+            json.dump({"movies": movies}, file, indent=4)
 
 if __name__ == "__main__":
     repo = MovieRepository()
