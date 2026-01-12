@@ -1,5 +1,5 @@
 import random
-
+import string
 
 class HangmanGame:
 
@@ -12,8 +12,6 @@ class HangmanGame:
         self.won = False
         self.lost = False
         
-
-     
     def _mask_word(self):
         masked = ""
         for char in self.word:
@@ -58,6 +56,9 @@ class HangmanGame:
             if char == letter:
                 masked[i] = letter
         self.masked_word = "".join(masked)
+
+    def remaining_letters(self):
+        return set(string.ascii_uppercase) - self.guessed_letters
 
 
 if __name__ == "__main__":
