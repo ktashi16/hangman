@@ -64,7 +64,5 @@ class MovieRepository:
 
 if __name__ == "__main__":
     repo = MovieRepository()
-    repo.create_movie("") #testing
-    repo.create_movie("Inception")
-    print(repo.read_movies())
+
 

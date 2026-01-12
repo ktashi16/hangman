@@ -17,7 +17,7 @@ def main():
         choice = input("Choose: ")
 
         if choice == "1":
-            print("GAME")
+            play_game()  
 
         elif choice == "2":
             movie_admin_menu()
@@ -31,7 +31,13 @@ def main():
 
 def play_game():
     repo = MovieRepository("movies.json")
-    game = HangmanGame(repo.get_all_movies())
+    movies = repo.read_movies()
+
+    if not movies:
+        print("No movies available to play. Add some from the admin menu first.")
+        return
+
+    game = HangmanGame(movies)
 
     while not game.is_over():
         print(f"\nWord: {game.masked_word}")
@@ -53,8 +59,6 @@ def play_game():
         print(f"You guessed it! The movie was: {game.masked_word}")
     else:
         print(f"You lost! The movie was: {game.masked_word}")
-
-
 
 
 if __name__ == "__main__":
