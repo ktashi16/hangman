@@ -41,6 +41,11 @@ class HangmanGame:
         guessed_word = guessed_word.upper()
         if self.is_over():
             return
+        if not isinstance(guessed_word, str):
+            raise TypeError("Guess must be a string")
+        guessed_word = guessed_word.strip().upper()
+        if not guessed_word:
+            raise ValueError("Guess cannot be empty")
 
         if guessed_word == self.word:
             self.won = True
