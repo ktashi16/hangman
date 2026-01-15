@@ -25,4 +25,11 @@ class TestMovieRepository(unittest.TestCase):
         movies = self.repo.read_movies()
         self.assertEqual(movies, ["Inception", "Titanic"])
 
-   
+    def test_create_movie(self):
+        self.repo.create_movie("Interstellar")
+        self.assertIn("Interstellar", self.repo.read_movies())
+
+
+
+if __name__ == "__main__":
+    unittest.main()
