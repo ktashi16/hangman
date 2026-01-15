@@ -14,7 +14,7 @@ def main():
 
     while running:
         print_main_menu()
-        choice = input("Choose: ")
+        choice = input("Choose: ").strip()
 
         if choice == "1":
             play_game()  
@@ -45,16 +45,15 @@ def play_game():
         print(f"Incorrect guesses: {game.incorrect_guesses}/{game.max_guesses}")
 
         choice = input("Guess a letter or the full movie title: ").strip()
-        if len(choice) == 1:
-            try:
+        try:
+            if len(choice) == 1:
                 game.guess_letter(choice)
-            except ValueError as e:
-                print(f"Error {e}")
-        elif len(choice) > 1:
-            game.guess_word(choice)
-        else:
-            print("Invalid input. Please guess a letter or a word.")
-
+            elif len(choice) > 1:
+                game.guess_word(choice)
+            else:
+                print("Invalid input. Please enter a letter or movie title.")
+        except (ValueError, TypeError) as e:
+            print(f"Error {e}")
     if game.won:
         print(f"You guessed it! The movie was: {game.masked_word}")
     else:
